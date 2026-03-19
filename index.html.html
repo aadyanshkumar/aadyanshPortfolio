@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aadyansh Kumar — Digital Freelancer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #080b10;
+    --bg2: #0d1117;
+    --bg3: #111620;
+    --card: #131921;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --accent: #00d4ff;
+    --accent2: #7c5cff;
+    --accent3: #ff5c8a;
+    --text: #e8edf5;
+    --muted: #6b7a96;
+    --muted2: #8a97b0;
+    --green: #00ffaa;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── GRID LINES ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(8,11,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: var(--muted2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent) !important;
+    padding: 7px 18px;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--accent) !important; color: var(--bg) !important; -webkit-text-fill-color: var(--bg) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(0,212,255,0.25);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -3px;
+    animation: fadeUp 0.7s 0.1s ease both;
+    margin-bottom: 24px;
+  }
+  .hero h1 .line1 { display: block; color: var(--text); }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 17px;
+    color: var(--muted2);
+    max-width: 560px;
+    margin-bottom: 48px;
+    line-height: 1.8;
+    animation: fadeUp 0.7s 0.2s ease both;
+    font-weight: 300;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: var(--bg);
+    border: none;
+    padding: 14px 32px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s, transform 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border2);
+    padding: 14px 32px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  /* ── HERO STATS ── */
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 72px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.7s 0.4s ease both;
+    flex-wrap: wrap;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ── GLOW ORB ── */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-1 { width: 600px; height: 600px; background: rgba(0,212,255,0.06); top: -100px; right: -200px; }
+  .orb-2 { width: 400px; height: 400px; background: rgba(124,92,255,0.07); bottom: 0; left: -100px; }
+
+  /* ── SECTION COMMONS ── */
+  section { position: relative; z-index: 1; padding: 100px 48px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .section-sub {
+    font-size: 16px;
+    color: var(--muted2);
+    max-width: 520px;
+    margin-bottom: 60px;
+    font-weight: 300;
+  }
+
+  /* ── SKILLS GRID ── */
+  #skills { background: var(--bg2); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: default;
+  }
+  .skill-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .skill-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .skill-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+  .skill-badge {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(0,212,255,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0,212,255,0.2);
+  }
+  .skill-badge.purple { background: rgba(124,92,255,0.1); color: var(--accent2); border-color: rgba(124,92,255,0.2); }
+  .skill-badge.pink { background: rgba(255,92,138,0.1); color: var(--accent3); border-color: rgba(255,92,138,0.2); }
+  .skill-badge.green { background: rgba(0,255,170,0.1); color: var(--green); border-color: rgba(0,255,170,0.2); }
+
+  /* ── FEATURED SKILLS (top 3 AI) ── */
+  .featured-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .skill-card.featured {
+    background: linear-gradient(145deg, #131921, #0e1520);
+    border-color: rgba(0,212,255,0.2);
+  }
+  .skill-card.featured:hover { border-color: var(--accent); }
+  .skill-card.featured::after {
+    content: '★ Top Skill';
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: var(--accent);
+    opacity: 0.7;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--bg); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 36px 32px;
+    transition: border-color 0.3s;
+  }
+  .service-card:hover { border-color: var(--border2); }
+  .service-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 16px;
+    letter-spacing: -2px;
+  }
+  .service-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  .service-desc { font-size: 14px; color: var(--muted2); line-height: 1.7; font-weight: 300; }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .stag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--muted2);
+    font-weight: 400;
+  }
+
+  /* ── WHY ME ── */
+  #why { background: var(--bg3); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .why-card {
+    padding: 32px 28px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    text-align: center;
+  }
+  .why-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+  .why-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .why-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.7; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg); }
+  .contact-box {
+    background: linear-gradient(135deg, rgba(0,212,255,0.06), rgba(124,92,255,0.06));
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 20px;
+    padding: 72px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-box::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,212,255,0.08), transparent 70%);
+    pointer-events: none;
+  }
+  .contact-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--text), var(--muted2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .contact-sub { font-size: 16px; color: var(--muted2); margin-bottom: 40px; font-weight: 300; }
+  .contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 16px 32px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .contact-email:hover { background: rgba(0,212,255,0.08); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .footer-copy { font-size: 12px; color: var(--muted); }
+  .footer-fiverr {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted2);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-fiverr:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 3px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    section { padding: 70px 20px; }
+    .featured-row { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    footer { padding: 24px 20px; }
+    .contact-box { padding: 40px 24px; }
+    .hero-stats { gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">AK.</div>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#services">Services</a>
+    <a href="#why">Why Me</a>
+    <a href="#contact" class="nav-cta">Hire Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Available for Freelance Work</div>
+    <h1>
+      <span class="line1">Aadyansh</span>
+      <span class="line2">Kumar</span>
+    </h1>
+    <p class="hero-desc">
+      AI & Automation specialist, full-stack developer, and creative freelancer — delivering intelligent, scalable solutions from code to content.
+    </p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">View My Services</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">13+</div>
+        <div class="stat-label">Skills Offered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24h</div>
+        <div class="stat-label">Avg. Response</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Revisions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label reveal">Expertise</div>
+    <h2 class="section-title reveal">Skills & Capabilities</h2>
+    <p class="section-sub reveal">From cutting-edge AI automation to polished creative work — a full-spectrum toolkit for modern digital needs.</p>
+
+    <!-- Featured AI Skills -->
+    <div class="featured-row reveal">
+      <div class="skill-card featured">
+        <span class="skill-icon">🤖</span>
+        <div class="skill-name">AI & Automation Services</div>
+        <div class="skill-desc">Building intelligent workflows, ChatGPT integrations, and AI-powered pipelines that save hours of manual work.</div>
+        <span class="skill-badge">Highest Demand</span>
+      </div>
+      <div class="skill-card featured">
+        <span class="skill-icon">⚡</span>
+        <div class="skill-name">Prompt Engineering</div>
+        <div class="skill-desc">Crafting precision prompts for GPT-4, Claude, Midjourney & more — optimized for accuracy and repeatable results.</div>
+        <span class="skill-badge">AI Specialist</span>
+      </div>
+      <div class="skill-card featured">
+        <span class="skill-icon">🔧</span>
+        <div class="skill-name">No-Code / Low-Code Dev</div>
+        <div class="skill-desc">Rapid app and automation builds using Webflow, Bubble, Zapier, and Make.com — no slow development cycles.</div>
+        <span class="skill-badge">Fast Delivery</span>
+      </div>
+    </div>
+
+    <!-- All other skills -->
+    <div class="skills-grid reveal">
+      <div class="skill-card">
+        <span class="skill-icon">☁️</span>
+        <div class="skill-name">Salesforce Developer</div>
+        <div class="skill-desc">Custom Salesforce apps, Apex development, Flow automation, and CRM configuration tailored to business needs.</div>
+        <span class="skill-badge purple">Enterprise</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">💻</span>
+        <div class="skill-name">Web Development</div>
+        <div class="skill-desc">Responsive, fast-loading websites and web apps — from WordPress & Shopify to custom React builds.</div>
+        <span class="skill-badge purple">Full Stack</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📈</span>
+        <div class="skill-name">Digital Marketing</div>
+        <div class="skill-desc">SEO, Google Ads, email campaigns and funnel strategy — data-driven growth for any business size.</div>
+        <span class="skill-badge green">ROI Focused</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🎬</span>
+        <div class="skill-name">Video Editing</div>
+        <div class="skill-desc">Engaging reels, YouTube content, ads and promotional videos — edited for retention and impact.</div>
+        <span class="skill-badge pink">Creative</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🎨</span>
+        <div class="skill-name">Graphic Design</div>
+        <div class="skill-desc">Brand kits, social media graphics, banners and marketing collateral that stop the scroll.</div>
+        <span class="skill-badge pink">Visual</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">✍️</span>
+        <div class="skill-name">Copywriting & Content</div>
+        <div class="skill-desc">SEO blog posts, website copy, newsletters and ad scripts that convert readers into customers.</div>
+        <span class="skill-badge green">Conversion</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🎙️</span>
+        <div class="skill-name">Voice-Over</div>
+        <div class="skill-desc">Professional voice recordings for explainer videos, ads, e-learning and audiobook narration.</div>
+        <span class="skill-badge pink">Audio</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📋</span>
+        <div class="skill-name">Virtual Assistance</div>
+        <div class="skill-desc">Efficient administrative support — inbox management, scheduling, research and data organization.</div>
+        <span class="skill-badge">Reliable</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📱</span>
+        <div class="skill-name">Social Media Management</div>
+        <div class="skill-desc">End-to-end social media handling — content planning, posting, engagement and growth tracking.</div>
+        <span class="skill-badge green">Growth</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🏷️</span>
+        <div class="skill-name">Logo Design</div>
+        <div class="skill-desc">Memorable, versatile logos and brand marks crafted to represent your business identity perfectly.</div>
+        <span class="skill-badge pink">Brand</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-label reveal">What I Deliver</div>
+    <h2 class="section-title reveal">Core Services</h2>
+    <p class="section-sub reveal">Every service is built around one goal — results that exceed expectations.</p>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-title">AI & Tech Solutions</div>
+        <div class="service-desc">End-to-end AI implementation: from workflow automation and prompt system design to no-code app development and Salesforce CRM customization. I build systems that work while you sleep.</div>
+        <div class="service-tags">
+          <span class="stag">ChatGPT API</span>
+          <span class="stag">Zapier</span>
+          <span class="stag">Make.com</span>
+          <span class="stag">Webflow</span>
+          <span class="stag">Salesforce</span>
+          <span class="stag">Bubble</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-title">Web & Digital Presence</div>
+        <div class="service-desc">Full website development combined with digital marketing strategy — SEO-optimised sites that rank, convert, and grow your business through smart paid and organic channels.</div>
+        <div class="service-tags">
+          <span class="stag">WordPress</span>
+          <span class="stag">Shopify</span>
+          <span class="stag">React</span>
+          <span class="stag">SEO</span>
+          <span class="stag">Google Ads</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-title">Creative Production</div>
+        <div class="service-desc">From brand identity and logo design to video editing and voice-over recording — compelling creative assets that communicate your message and elevate your brand across every channel.</div>
+        <div class="service-tags">
+          <span class="stag">Logo Design</span>
+          <span class="stag">Brand Kits</span>
+          <span class="stag">Video Reels</span>
+          <span class="stag">Voice-Over</span>
+          <span class="stag">Social Graphics</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-title">Content & Social Growth</div>
+        <div class="service-desc">Strategic copywriting, social media management, and virtual assistance — I handle the content engine so you can focus on building your business. Consistent, engaging, data-driven.</div>
+        <div class="service-tags">
+          <span class="stag">SEO Blogs</span>
+          <span class="stag">Email Campaigns</span>
+          <span class="stag">Instagram</span>
+          <span class="stag">LinkedIn</span>
+          <span class="stag">Admin Support</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ME -->
+<section id="why">
+  <div class="section-inner">
+    <div class="section-label reveal">Why Choose Me</div>
+    <h2 class="section-title reveal">The Aadyansh Advantage</h2>
+    <p class="section-sub reveal">Not just a freelancer — a committed digital partner focused on your growth.</p>
+    <div class="why-grid reveal">
+      <div class="why-card">
+        <span class="why-icon">🧠</span>
+        <div class="why-title">AI-First Thinking</div>
+        <div class="why-desc">I apply AI tools and automation to every project — delivering faster results, smarter outputs and modern solutions other freelancers can't match.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🎯</span>
+        <div class="why-title">Multi-Skill Versatility</div>
+        <div class="why-desc">13+ skills under one roof means no miscommunication between vendors. You get cohesive, integrated work from a single point of contact.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">⚡</span>
+        <div class="why-title">Fast Turnaround</div>
+        <div class="why-desc">Deadlines are sacred. I respond within 24 hours and deliver on time, every time — without sacrificing an inch of quality.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🔄</span>
+        <div class="why-title">Unlimited Revisions</div>
+        <div class="why-desc">Your satisfaction is the finish line, not a delivery confirmation. I iterate until the work is exactly what you envisioned.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🌐</span>
+        <div class="why-title">Global Standards</div>
+        <div class="why-desc">Delivering work that meets international quality benchmarks — whether you're a startup in Mumbai or a business in New York.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">💬</span>
+        <div class="why-title">Clear Communication</div>
+        <div class="why-desc">You'll always know where your project stands. Regular updates, transparent pricing, and zero surprises — that's the promise.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-box reveal">
+      <div class="contact-title">Let's Build Something Great</div>
+      <p class="contact-sub">Available for Fiverr projects, collaborations, and long-term partnerships. Let's talk about your next big idea.</p>
+      <a href="https://www.fiverr.com" class="contact-email" target="_blank">
+        <span>🟢</span> Find Me on Fiverr
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Aadyansh Kumar</div>
+  <div class="footer-copy">© 2026 · All rights reserved</div>
+  <a href="https://www.fiverr.com/aadyansh_kumar" class="footer-fiverr" target="_blank">
+    🟢 Fiverr Profile
+  </a>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Smooth nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
